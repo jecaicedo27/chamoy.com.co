@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!product) return {};
 
   return {
-    title: `${product.name} 500 ml y 1 litro | Precio en Colombia`,
+    title: `${product.name} Skarchamoy | 500 ml y 1 litro | Precio en Colombia`,
     description: product.shortDescription,
     alternates: { canonical: `/productos/${product.slug}/` },
     openGraph: {
@@ -60,7 +60,7 @@ export default async function ProductPage({ params }: Props) {
       <section className="page-hero">
         <div className="wrap">
           <div>
-            <p className="section-kicker">Chamoy en Colombia</p>
+            <p className="section-kicker">Skarchamoy · Fabricado en Colombia</p>
             <h1>{product.name}: {product.format.toLowerCase()}.</h1>
             <p>{product.shortDescription}</p>
             <div className="mini-nav">

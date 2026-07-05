@@ -65,12 +65,12 @@ export default async function HomePage() {
           <div className="section-head">
             <div>
               <p className="section-kicker">Producción propia</p>
-              <h2>Somos fabricantes, no revendedores.</h2>
+              <h2>Somos fabricantes: así nace Skarchamoy.</h2>
             </div>
             <p>
-              Producimos nuestro sirope y salsa de chamoy en Colombia. Eso significa precio
-              directo de fábrica, receta consistente en cada lote y capacidad para atender
-              negocios que compran todos los meses.
+              Skarchamoy es nuestra marca de chamoy, producida en Colombia. Ser fabricantes
+              significa precio directo de fábrica, receta consistente en cada lote y capacidad
+              para atender negocios que compran todos los meses.
             </p>
           </div>
           <div className="grid three">

@@ -3,9 +3,10 @@ export const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "573041
 
 export const site = {
   name: "Chamoy Colombia",
+  brand: "Skarchamoy",
   url: siteUrl,
   whatsappNumber,
   whatsappPretty: "+57 304 146 2122",
   description:
-    "Fabricantes de sirope y salsa de chamoy en Colombia. Directo de fábrica para micheladas, frutas, sodas, granizados y negocios."
+    "Fabricantes de Skarchamoy: sirope y salsa de chamoy hechos en Colombia. Directo de fábrica para micheladas, frutas, sodas, granizados y negocios."
 };

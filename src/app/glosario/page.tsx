@@ -90,6 +90,13 @@ const terms: GlossaryTerm[] = [
     related: { label: "Cómo hacer chamoy casero", href: "/recetas/como-hacer-chamoy-casero/" }
   },
   {
+    slug: "skarchamoy",
+    name: "Skarchamoy",
+    definition:
+      "Marca colombiana de chamoy de chamoy.com.co. Fabricamos sirope y salsa de chamoy en Colombia con receta estandarizada, en presentaciones de 500 ml y 1 litro, con venta directa de fábrica y envío a todo el país.",
+    related: { label: "Ver productos Skarchamoy", href: "/productos/" }
+  },
+  {
     slug: "dulces-enchilados",
     name: "Dulces enchilados",
     definition:
