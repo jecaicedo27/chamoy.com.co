@@ -57,10 +57,13 @@ export default async function ComprarPage() {
         <div className="wrap">
           <div className="section-head">
             <div>
-              <p className="section-kicker">Catalogo inicial</p>
-              <h2>Formatos disponibles.</h2>
+              <p className="section-kicker">Tienda Skarchamoy</p>
+              <h2>La línea completa, desde $35.000.</h2>
             </div>
-            <p>Precios confirmados: 500 ml por $35.000 COP y 1 litro por $55.000 COP.</p>
+            <p>
+              Sirope y salsa en 500 ml y 1 litro; gel escarchador y Skarchalito en polvo desde
+              500 g. Precio directo de fábrica y envío a todo el país.
+            </p>
           </div>
           <ProductCards products={products} />
         </div>

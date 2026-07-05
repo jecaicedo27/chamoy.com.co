@@ -4,7 +4,7 @@ import type { Product } from "@/lib/types";
 
 export function ProductCards({ products }: { products: Product[] }) {
   return (
-    <div className="grid two">
+    <div className="products-grid">
       {products.map((product) => (
         <article className="card product-card" id={product.slug} key={product.slug}>
           <img className="card-image product-image" src={product.image} alt={product.imageAlt} loading="lazy" />
@@ -32,8 +32,8 @@ export function ProductCards({ products }: { products: Product[] }) {
             presentations={product.presentations}
             compact
           />
-          <Link className="btn btn-secondary" href={`/productos/${product.slug}/`}>
-            Ver detalles
+          <Link className="product-details-link" href={`/productos/${product.slug}/`}>
+            Ver detalles →
           </Link>
         </article>
       ))}
