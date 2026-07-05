@@ -149,6 +149,15 @@ export function productJsonLd(product: Product) {
     brand: { "@type": "Brand", "@id": `${site.url}/#brand`, name: site.brand },
     manufacturer: { "@id": `${site.url}/#organization` },
     countryOfOrigin: "CO",
+    ...(product.invimaRegistro
+      ? {
+          additionalProperty: {
+            "@type": "PropertyValue",
+            name: "Notificación Sanitaria INVIMA",
+            value: product.invimaRegistro
+          }
+        }
+      : {}),
     category: "Salsas y siropes para bebidas",
     image: absoluteUrl(product.image),
     url: `${site.url}/productos/${product.slug}/`,

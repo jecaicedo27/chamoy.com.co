@@ -52,6 +52,8 @@ export function Footer() {
       </div>
       <div className="wrap footer-legal">
         © 2026 {site.name} — chamoy.com.co. Hecho con sabor en Colombia.
+        <br />
+        Sirope de chamoy {site.brand}: Notificación Sanitaria INVIMA NSA-2482-2025.
       </div>
     </footer>
   );

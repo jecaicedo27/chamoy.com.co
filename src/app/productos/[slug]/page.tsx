@@ -75,6 +75,11 @@ export default async function ProductPage({ params }: Props) {
           <aside className="card card-pad">
             <h3>Presentaciones</h3>
             <p>500 ml por $35.000 COP y 1 litro por $55.000 COP.</p>
+            {product.invimaRegistro ? (
+              <p className="invima-badge">
+                Notificación Sanitaria INVIMA <strong>{product.invimaRegistro}</strong>
+              </p>
+            ) : null}
           </aside>
         </div>
       </section>

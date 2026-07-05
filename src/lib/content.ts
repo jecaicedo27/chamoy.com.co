@@ -20,6 +20,7 @@ const fallbackProducts: Product[] = [
     image: "/assets/img/sirope-de-chamoy.webp",
     imageAlt: "Sirope de chamoy líquido de 500 ml junto a una michelada",
     priceNote: "Ahorra con el litro: la presentación de 1 litro cuesta $55 el mililitro.",
+    invimaRegistro: "NSA-2482-2025",
     comparison: null,
     relatedRecipes: ["michelada-con-chamoy", "mangonada"],
     updatedAt: new Date("2026-07-05T00:00:00.000Z")
@@ -37,6 +38,7 @@ const fallbackProducts: Product[] = [
     image: "/assets/img/salsa-de-chamoy.webp",
     imageAlt: "Tarro de salsa de chamoy espesa con mango verde",
     priceNote: "Ahorra con el litro: el tarro de 1 litro sale a $55 el mililitro.",
+    invimaRegistro: null,
     comparison: null,
     relatedRecipes: ["mango-con-chamoy-y-tajin", "gomitas-enchiladas-con-chamoy"],
     updatedAt: new Date("2026-07-05T00:00:00.000Z")
@@ -96,6 +98,7 @@ type ProductRow = {
   image: string;
   image_alt: string;
   price_note: string | null;
+  invima_registro: string | null;
   comparison: string | null;
   related_recipes: string[];
   updated_at: Date;
@@ -203,6 +206,7 @@ function mapProduct(row: ProductRow): Product {
     image: row.image,
     imageAlt: row.image_alt,
     priceNote: row.price_note,
+    invimaRegistro: row.invima_registro,
     comparison: row.comparison,
     relatedRecipes: row.related_recipes,
     updatedAt: row.updated_at
@@ -240,7 +244,8 @@ export async function getProducts(): Promise<Product[]> {
   try {
     const rows = await query<ProductRow>(
       `SELECT slug, name, format, short_description, description, best_for, highlights,
-              presentations, image, image_alt, price_note, comparison, related_recipes, updated_at
+              presentations, image, image_alt, price_note, invima_registro, comparison,
+              related_recipes, updated_at
        FROM products
        WHERE active = true
        ORDER BY sort_order, id`

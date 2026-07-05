@@ -16,6 +16,7 @@ export type Product = {
   image: string;
   imageAlt: string;
   priceNote: string | null;
+  invimaRegistro: string | null;
   comparison: string | null;
   relatedRecipes: string[];
   updatedAt: Date;
