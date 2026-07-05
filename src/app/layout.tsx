@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { AnalyticsListener } from "@/components/AnalyticsListener";
+import { CartWidget } from "@/components/CartWidget";
 import { Footer } from "@/components/Footer";
+import { CartProvider } from "@/lib/cart";
 import { Header } from "@/components/Header";
 import { StickyMobileBar } from "@/components/StickyMobileBar";
 import { JsonLd, organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
@@ -43,10 +45,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
-        <Header />
-        {children}
-        <Footer />
-        <StickyMobileBar />
+        <CartProvider>
+          <Header />
+          {children}
+          <Footer />
+          <StickyMobileBar />
+          <CartWidget />
+        </CartProvider>
         <AnalyticsListener />
         {ga4Id ? (
           <>

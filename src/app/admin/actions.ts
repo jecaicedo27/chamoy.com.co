@@ -10,6 +10,7 @@ import {
   updateProductPricing,
   upsertFaq
 } from "@/lib/admin";
+import { updateOrderStatus } from "@/lib/orders";
 import { ADMIN_COOKIE, SESSION_SECONDS, createToken, requireAdmin, safeEquals } from "@/lib/adminAuth";
 
 const LEAD_STATUSES = new Set(["new", "contacted", "closed", "discarded"]);
@@ -60,6 +61,30 @@ export async function leadDeleteAction(formData: FormData) {
 
   await deleteLead(id);
   revalidatePath("/admin/leads");
+}
+
+const ORDER_STATUSES = new Set([
+  "created",
+  "pending_payment",
+  "paid",
+  "whatsapp",
+  "declined",
+  "error",
+  "voided",
+  "shipped",
+  "delivered",
+  "cancelled"
+]);
+
+export async function orderStatusAction(formData: FormData) {
+  await requireAdmin();
+
+  const id = String(formData.get("id") || "");
+  const status = String(formData.get("status") || "");
+  if (!id || !ORDER_STATUSES.has(status)) return;
+
+  await updateOrderStatus(id, status);
+  revalidatePath("/admin/pedidos");
 }
 
 export async function faqSaveAction(formData: FormData) {

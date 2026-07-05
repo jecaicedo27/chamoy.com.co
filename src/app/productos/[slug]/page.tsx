@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { AddToCart } from "@/components/AddToCart";
 import { RichText } from "@/components/RichText";
 import { getProductBySlug, getProducts, getRecipes } from "@/lib/content";
 import { site } from "@/lib/env";
@@ -63,8 +64,14 @@ export default async function ProductPage({ params }: Props) {
             <p className="section-kicker">Skarchamoy · Fabricado en Colombia</p>
             <h1>{product.name}: {product.format.toLowerCase()}.</h1>
             <p>{product.shortDescription}</p>
+            <AddToCart
+              slug={product.slug}
+              name={product.name}
+              image={product.image}
+              presentations={product.presentations}
+            />
             <div className="mini-nav">
-              <a className="btn btn-primary" href={whatsappUrl(message)}>
+              <a className="btn btn-secondary" href={whatsappUrl(message)}>
                 Pedir por WhatsApp
               </a>
               <Link className="btn btn-secondary" href="/productos/">

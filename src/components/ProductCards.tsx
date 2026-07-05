@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { AddToCart } from "@/components/AddToCart";
 import type { Product } from "@/lib/types";
 
 export function ProductCards({ products }: { products: Product[] }) {
@@ -24,8 +25,15 @@ export function ProductCards({ products }: { products: Product[] }) {
               ))}
             </ul>
           </div>
-          <Link className="btn btn-primary" href={`/productos/${product.slug}/`}>
-            Ver opcion
+          <AddToCart
+            slug={product.slug}
+            name={product.name}
+            image={product.image}
+            presentations={product.presentations}
+            compact
+          />
+          <Link className="btn btn-secondary" href={`/productos/${product.slug}/`}>
+            Ver detalles
           </Link>
         </article>
       ))}
