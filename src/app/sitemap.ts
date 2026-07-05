@@ -37,6 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     route("/glosario/", contentUpdatedAt, 0.7),
     route("/colombia/", contentUpdatedAt, 0.7),
     route("/negocios/", contentUpdatedAt, 0.7),
+    route("/mayoristas/", contentUpdatedAt, 0.8),
     route("/faq/", contentUpdatedAt, 0.65)
   ];
 

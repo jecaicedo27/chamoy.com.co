@@ -27,6 +27,7 @@ export function Footer() {
             <li><Link href="/negocios/bares/">Bares y micheladas</Link></li>
             <li><Link href="/negocios/fruteras/">Fruterías</Link></li>
             <li><Link href="/negocios/heladerias/">Heladerías</Link></li>
+            <li><Link href="/mayoristas/">Mayoristas y distribuidores</Link></li>
             <li><Link href="/asesoria/#calculadora">Calculadora de porciones</Link></li>
           </ul>
         </div>

@@ -38,6 +38,19 @@ export default async function NegociosHub() {
               </Link>
             ))}
           </div>
+          <div className="cta-band" style={{ marginTop: 28 }}>
+            <p className="section-kicker" style={{ color: "#ffd56a" }}>Compra en volumen</p>
+            <h2>¿Distribuidor, cadena o mayorista?</h2>
+            <p>
+              Somos fabricantes: precios escalonados por volumen, reposición garantizada y
+              proyectos de maquila. Sin intermediarios.
+            </p>
+            <div className="section-actions">
+              <Link className="btn btn-secondary" href="/mayoristas/">
+                Ver condiciones mayoristas
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </main>
