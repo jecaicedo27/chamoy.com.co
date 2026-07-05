@@ -6,12 +6,21 @@ import { formatCop, useCart } from "@/lib/cart";
 import { track } from "@/lib/track";
 
 type Status = "idle" | "loading" | "error";
+type PayMethod = "wompi" | "bancolombia" | "qr" | "whatsapp";
+
+const PAY_OPTIONS: Array<{ value: PayMethod; title: string; detail: string }> = [
+  { value: "wompi", title: "Tarjeta, PSE o Nequi", detail: "Pago seguro con Wompi" },
+  { value: "bancolombia", title: "Botón Bancolombia", detail: "Paga directo desde tu app Bancolombia" },
+  { value: "qr", title: "QR Bancolombia", detail: "Escanea y paga con Bancolombia o Nequi" },
+  { value: "whatsapp", title: "Coordinar por WhatsApp", detail: "Te confirmamos pago y envío por chat" }
+];
 
 export default function CheckoutPage() {
   const cart = useCart();
-  const [payWith, setPayWith] = useState<"wompi" | "whatsapp">("wompi");
+  const [payWith, setPayWith] = useState<PayMethod>("wompi");
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState("");
+  const [qrView, setQrView] = useState<{ image: string; reference: string; totalCop: number } | null>(null);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -45,7 +54,9 @@ export default function CheckoutPage() {
         error?: string;
         reference?: string;
         checkoutUrl?: string;
+        redirectUrl?: string;
         whatsappUrl?: string;
+        qr?: { image: string; totalCop: number };
       };
 
       if (!response.ok || !data.ok || !data.reference) {
@@ -53,10 +64,17 @@ export default function CheckoutPage() {
       }
 
       track("checkout_submit", { total: cart.subtotal, method: payWith });
+      const total = cart.subtotal;
       cart.clear();
 
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+      const paymentRedirect = data.checkoutUrl || data.redirectUrl;
+      if (paymentRedirect) {
+        window.location.href = paymentRedirect;
+        return;
+      }
+      if (data.qr) {
+        setStatus("idle");
+        setQrView({ image: data.qr.image, reference: data.reference, totalCop: data.qr.totalCop ?? total });
         return;
       }
       if (data.whatsappUrl) {
@@ -67,6 +85,35 @@ export default function CheckoutPage() {
       setStatus("error");
       setError(submitError instanceof Error ? submitError.message : "Error inesperado.");
     }
+  }
+
+  if (qrView) {
+    return (
+      <main className="section">
+        <div className="wrap qr-screen">
+          <div className="card card-pad qr-card">
+            <p className="section-kicker">Pedido {qrView.reference}</p>
+            <h1>Escanea y paga {formatCop(qrView.totalCop)}</h1>
+            <p>
+              Abre tu app <strong>Bancolombia</strong> (o Nequi con QR Bancolombia), escanea el
+              código y confirma el pago. El QR es válido por 2 horas.
+            </p>
+            <img
+              className="qr-image"
+              src={`data:image/svg+xml;base64,${qrView.image}`}
+              alt={`Código QR para pagar el pedido ${qrView.reference}`}
+            />
+            <Link className="btn btn-primary" href={`/pedido/${qrView.reference}/`}>
+              Ya pagué — ver estado del pedido
+            </Link>
+            <p className="calc-note">
+              Si el QR se vence o no puedes escanearlo, entra al estado del pedido y contáctanos
+              por WhatsApp: lo resolvemos por otro medio.
+            </p>
+          </div>
+        </div>
+      </main>
+    );
   }
 
   if (!cart.items.length) {
@@ -123,42 +170,36 @@ export default function CheckoutPage() {
 
           <fieldset className="pay-picker">
             <legend>¿Cómo quieres pagar?</legend>
-            <label className={payWith === "wompi" ? "pay-option active" : "pay-option"}>
-              <input
-                type="radio"
-                name="payWith"
-                value="wompi"
-                checked={payWith === "wompi"}
-                onChange={() => setPayWith("wompi")}
-              />
-              <span>
-                <strong>Pago online seguro</strong>
-                <small>Tarjeta, PSE, Nequi o Bancolombia (Wompi)</small>
-              </span>
-            </label>
-            <label className={payWith === "whatsapp" ? "pay-option active" : "pay-option"}>
-              <input
-                type="radio"
-                name="payWith"
-                value="whatsapp"
-                checked={payWith === "whatsapp"}
-                onChange={() => setPayWith("whatsapp")}
-              />
-              <span>
-                <strong>Coordinar por WhatsApp</strong>
-                <small>Te confirmamos pago y envío por chat</small>
-              </span>
-            </label>
+            {PAY_OPTIONS.map((option) => (
+              <label
+                className={payWith === option.value ? "pay-option active" : "pay-option"}
+                key={option.value}
+              >
+                <input
+                  type="radio"
+                  name="payWith"
+                  value={option.value}
+                  checked={payWith === option.value}
+                  onChange={() => setPayWith(option.value)}
+                />
+                <span>
+                  <strong>{option.title}</strong>
+                  <small>{option.detail}</small>
+                </span>
+              </label>
+            ))}
           </fieldset>
 
           {error ? <p className="form-message error">{error}</p> : null}
 
           <button className="btn btn-primary checkout-submit" type="submit" disabled={status === "loading"}>
             {status === "loading"
-              ? "Creando pedido..."
-              : payWith === "wompi"
-                ? `Pagar ${formatCop(cart.subtotal)}`
-                : "Enviar pedido por WhatsApp"}
+              ? payWith === "qr"
+                ? "Generando QR..."
+                : "Creando pedido..."
+              : payWith === "whatsapp"
+                ? "Enviar pedido por WhatsApp"
+                : `Pagar ${formatCop(cart.subtotal)}`}
           </button>
           <p className="calc-note">El envío se coordina al confirmar el pedido, según tu ciudad.</p>
         </form>

@@ -7,7 +7,13 @@ import {
   setOrderPaymentResult,
   type OrderItem
 } from "@/lib/orders";
-import { buildCheckoutUrl, isWompiConfigured, uniquePaymentReference } from "@/lib/wompi";
+import {
+  buildCheckoutUrl,
+  createBancolombiaQrTransaction,
+  createBancolombiaTransferTransaction,
+  isWompiConfigured,
+  uniquePaymentReference
+} from "@/lib/wompi";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 const rateLimit = new Map<string, { count: number; resetAt: number }>();
@@ -62,12 +68,15 @@ export async function POST(request: Request) {
   const city = field(customer.city, 80);
   const address = field(customer.address, 200);
   const notes = field(customer.notes, 500);
-  const payWith = body.payWith === "whatsapp" ? "whatsapp" : "wompi";
+  const requested = String(body.payWith || "wompi");
+  const payWith = ["wompi", "bancolombia", "qr", "whatsapp"].includes(requested)
+    ? (requested as "wompi" | "bancolombia" | "qr" | "whatsapp")
+    : "wompi";
 
   if (name.length < 3 || phone.length < 7 || city.length < 3 || address.length < 5) {
     return NextResponse.json({ error: "Completa nombre, WhatsApp, ciudad y dirección." }, { status: 400 });
   }
-  if (payWith === "wompi" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+  if (payWith !== "whatsapp" && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
     return NextResponse.json({ error: "El correo es obligatorio para el pago online." }, { status: 400 });
   }
 
@@ -101,8 +110,9 @@ export async function POST(request: Request) {
   const shippingNote = "Envío por coordinar según ciudad";
 
   const reference = newOrderReference();
-  const wantsWompi = payWith === "wompi" && isWompiConfigured();
-  const paymentReference = wantsWompi ? uniquePaymentReference(reference) : null;
+  const onlineRequested = payWith !== "whatsapp";
+  const wantsOnline = onlineRequested && isWompiConfigured();
+  const paymentReference = wantsOnline ? uniquePaymentReference(reference) : null;
 
   await createOrder({
     reference,
@@ -118,26 +128,72 @@ export async function POST(request: Request) {
     shippingCop: 0,
     shippingNote,
     totalCop: subtotal,
-    status: wantsWompi ? "pending_payment" : "whatsapp",
-    paymentMethod: wantsWompi ? "wompi" : "whatsapp",
+    status: wantsOnline ? "pending_payment" : "whatsapp",
+    paymentMethod: wantsOnline ? "wompi" : "whatsapp",
     wompiPaymentReference: paymentReference
   });
 
-  if (wantsWompi && paymentReference) {
-    const checkoutUrl = buildCheckoutUrl({
-      paymentReference,
-      amountCop: subtotal,
-      customerEmail: email,
-      customerFullName: name,
-      customerPhone: phone,
-      redirectUrl: `${site.url}/pedido/${reference}/`
-    });
+  const redirectUrl = `${site.url}/pedido/${reference}/`;
+  const description = `Pedido ${reference} chamoy.com.co`;
 
-    if (!checkoutUrl) {
-      await setOrderPaymentResult({ reference, status: "whatsapp" });
-    } else {
-      return NextResponse.json({ ok: true, reference, checkoutUrl });
+  if (wantsOnline && paymentReference) {
+    try {
+      if (payWith === "bancolombia") {
+        const { transactionId, asyncPaymentUrl } = await createBancolombiaTransferTransaction({
+          paymentReference,
+          amountCop: subtotal,
+          customerEmail: email,
+          redirectUrl,
+          paymentDescription: description
+        });
+        await setOrderPaymentResult({ reference, status: "pending_payment", wompiTransactionId: transactionId });
+        return NextResponse.json({ ok: true, reference, redirectUrl: asyncPaymentUrl });
+      }
+
+      if (payWith === "qr") {
+        const { transactionId, qrImageBase64 } = await createBancolombiaQrTransaction({
+          paymentReference,
+          amountCop: subtotal,
+          customerEmail: email,
+          redirectUrl,
+          paymentDescription: description
+        });
+        await setOrderPaymentResult({ reference, status: "pending_payment", wompiTransactionId: transactionId });
+        return NextResponse.json({
+          ok: true,
+          reference,
+          qr: { image: qrImageBase64, totalCop: subtotal }
+        });
+      }
+
+      const checkoutUrl = buildCheckoutUrl({
+        paymentReference,
+        amountCop: subtotal,
+        customerEmail: email,
+        customerFullName: name,
+        customerPhone: phone,
+        redirectUrl
+      });
+      if (checkoutUrl) {
+        return NextResponse.json({ ok: true, reference, checkoutUrl });
+      }
+    } catch (error) {
+      console.error("Checkout Wompi falló, cae a widget/WhatsApp", { reference, payWith, error });
+      // El QR o el botón fallaron: intentar el widget como plan B antes de WhatsApp.
+      const checkoutUrl = buildCheckoutUrl({
+        paymentReference,
+        amountCop: subtotal,
+        customerEmail: email,
+        customerFullName: name,
+        customerPhone: phone,
+        redirectUrl
+      });
+      if (checkoutUrl) {
+        return NextResponse.json({ ok: true, reference, checkoutUrl });
+      }
     }
+
+    await setOrderPaymentResult({ reference, status: "whatsapp" });
   }
 
   const summary = items

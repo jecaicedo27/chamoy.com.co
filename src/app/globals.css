@@ -1531,3 +1531,32 @@ details p {
     bottom: 96px;
   }
 }
+
+/* --- Pago QR --- */
+.qr-screen {
+  display: grid;
+  justify-items: center;
+}
+
+.qr-card {
+  max-width: 460px;
+  text-align: center;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+.qr-image {
+  width: min(300px, 80vw);
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  padding: 12px;
+}
+
+.qr-inline {
+  margin: 14px 0;
+  display: grid;
+  gap: 10px;
+}

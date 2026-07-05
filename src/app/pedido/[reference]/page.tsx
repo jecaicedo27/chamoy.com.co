@@ -84,6 +84,8 @@ export default async function OrderStatusPage({
   // de verdad definitiva.
   const pendingStates = ["created", "pending_payment"];
   const txToCheck = transactionId || order.wompi_transaction_id;
+  let qrImage: string | null = null;
+
   if (pendingStates.includes(order.status) && !txToCheck && order.wompi_payment_reference) {
     // Sin id de transacción (el cliente no volvió por el redirect): reconciliar
     // por referencia de pago vía API.
@@ -92,6 +94,9 @@ export default async function OrderStatusPage({
   } else if (pendingStates.includes(order.status) && txToCheck) {
     const transaction = await fetchTransaction(txToCheck);
     if (transaction) {
+      if (transaction.status === "PENDING" && transaction.payment_method?.extra?.qr_image) {
+        qrImage = transaction.payment_method.extra.qr_image;
+      }
       if (transaction.status === "APPROVED") {
         await setOrderPaidIfPending({
           reference,
@@ -127,6 +132,19 @@ export default async function OrderStatusPage({
           <p className="section-kicker">Pedido {order.reference}</p>
           <h1>{view.title}</h1>
           <p>{view.body}</p>
+          {qrImage ? (
+            <div className="qr-inline">
+              <p>
+                <strong>Tu QR de pago sigue activo:</strong> escanéalo con tu app Bancolombia y
+                recarga esta página al pagar.
+              </p>
+              <img
+                className="qr-image"
+                src={`data:image/svg+xml;base64,${qrImage}`}
+                alt={`Código QR para pagar el pedido ${order.reference}`}
+              />
+            </div>
+          ) : null}
           <div className="section-actions">
             <a className="btn btn-primary" href={whatsappUrl(message)} data-cta="order-status">
               Hablar por WhatsApp
