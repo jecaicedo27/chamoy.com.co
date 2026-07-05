@@ -53,7 +53,8 @@ export function Footer() {
       <div className="wrap footer-legal">
         © 2026 {site.name} — chamoy.com.co. Hecho con sabor en Colombia.
         <br />
-        Sirope de chamoy {site.brand}: Notificación Sanitaria INVIMA NSA-2482-2025.
+        Registros sanitarios INVIMA — Sirope de chamoy {site.brand}: NSA-2482-2025 · Gel de
+        chamoy: RSA-0037682-2025 · Skarchalito: NSA-0324-2025.
       </div>
     </footer>
   );

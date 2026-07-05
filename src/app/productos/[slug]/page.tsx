@@ -74,7 +74,16 @@ export default async function ProductPage({ params }: Props) {
           </div>
           <aside className="card card-pad">
             <h3>Presentaciones</h3>
-            <p>500 ml por $35.000 COP y 1 litro por $55.000 COP.</p>
+            {product.presentations.length ? (
+              <p>
+                {product.presentations
+                  .map((presentation) => `${presentation.size} por $${presentation.priceCop.toLocaleString("es-CO")} COP`)
+                  .join(" y ")}
+                .
+              </p>
+            ) : (
+              <p>Producto de lanzamiento: pregunta presentaciones y precios por WhatsApp.</p>
+            )}
             {product.invimaRegistro ? (
               <p className="invima-badge">
                 Notificación Sanitaria INVIMA <strong>{product.invimaRegistro}</strong>

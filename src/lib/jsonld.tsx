@@ -158,19 +158,23 @@ export function productJsonLd(product: Product) {
           }
         }
       : {}),
-    category: "Salsas y siropes para bebidas",
+    category: "Salsas, siropes y condimentos",
     image: absoluteUrl(product.image),
     url: `${site.url}/productos/${product.slug}/`,
-    offers: product.presentations.map((presentation) => ({
-      "@type": "Offer",
-      name: `${product.name} ${presentation.size}`,
-      price: presentation.priceCop,
-      priceCurrency: "COP",
-      availability: "https://schema.org/InStock",
-      itemCondition: "https://schema.org/NewCondition",
-      areaServed: "CO",
-      url: `${site.url}/productos/${product.slug}/`
-    }))
+    ...(product.presentations.length
+      ? {
+          offers: product.presentations.map((presentation) => ({
+            "@type": "Offer",
+            name: `${product.name} ${presentation.size}`,
+            price: presentation.priceCop,
+            priceCurrency: "COP",
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            areaServed: "CO",
+            url: `${site.url}/productos/${product.slug}/`
+          }))
+        }
+      : {})
   };
 }
 

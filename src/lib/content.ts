@@ -153,7 +153,9 @@ function asPresentations(value: unknown): Presentation[] {
     })
     .filter((item): item is Presentation => item !== null);
 
-  return presentations.length ? presentations : defaultPresentations;
+  // Un arreglo vacío es intencional (producto sin precios publicados aún):
+  // no caer al fallback, que inventaría precios de otro producto.
+  return presentations;
 }
 
 function asSteps(value: unknown): RecipeStep[] {

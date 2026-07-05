@@ -93,8 +93,22 @@ const terms: GlossaryTerm[] = [
     slug: "skarchamoy",
     name: "Skarchamoy",
     definition:
-      "Marca colombiana de chamoy de chamoy.com.co. Fabricamos sirope y salsa de chamoy en Colombia con receta estandarizada, en presentaciones de 500 ml y 1 litro, con venta directa de fábrica y envío a todo el país.",
+      "Marca colombiana de chamoy de chamoy.com.co. Fabricamos en Colombia la línea completa: sirope, salsa y gel de chamoy, más el polvo agridulce Skarchalito, con venta directa de fábrica y envío a todo el país.",
     related: { label: "Ver productos Skarchamoy", href: "/productos/" }
+  },
+  {
+    slug: "gel-de-chamoy",
+    name: "Gel de chamoy",
+    definition:
+      "Formato escarchador del chamoy: más denso que la salsa, se adhiere al borde del vaso, al dulce o a la paleta sin escurrir. Es el que usan dulcerías y barras micheleras para escarchar rápido y parejo.",
+    related: { label: "Ver gel de chamoy", href: "/productos/gel-de-chamoy/" }
+  },
+  {
+    slug: "skarchalito-polvo",
+    name: "Skarchalito (polvo agridulce)",
+    definition:
+      "Preparado sólido agridulce y picante de Skarchamoy: el polvito estilo mexicano para espolvorear sobre fruta, gomitas, snacks y bordes escarchados. Es el par del chamoy en el escarchado clásico.",
+    related: { label: "Ver Skarchalito", href: "/productos/skarchalito/" }
   },
   {
     slug: "dulces-enchilados",

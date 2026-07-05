@@ -130,11 +130,11 @@ export default async function HomePage() {
           <div className="section-head">
             <div>
               <p className="section-kicker">Elige rapido</p>
-              <h2>Dos formatos, usos distintos.</h2>
+              <h2>La línea completa del antojo.</h2>
             </div>
             <p>
-              Si va en bebida, elige sirope. Si va sobre fruta, borde o snack, elige salsa.
-              Esa decision hace mas facil comprar bien desde el primer pedido.
+              Sirope para bebidas, salsa para fruta y toppings, gel para escarchar sin que gotee
+              y Skarchalito, el polvo agridulce picante. Cuatro productos que se combinan entre sí.
             </p>
           </div>
           <ProductCards products={products} />

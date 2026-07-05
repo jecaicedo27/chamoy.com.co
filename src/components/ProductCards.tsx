@@ -9,7 +9,11 @@ export function ProductCards({ products }: { products: Product[] }) {
           <img className="card-image product-image" src={product.image} alt={product.imageAlt} loading="lazy" />
           <div className="product-topline">
             <span>{product.format}</span>
-            <span>Desde ${product.presentations[0]?.priceCop.toLocaleString("es-CO")}</span>
+            <span>
+              {product.presentations.length
+                ? `Desde $${product.presentations[0].priceCop.toLocaleString("es-CO")}`
+                : "Cotiza por WhatsApp"}
+            </span>
           </div>
           <div>
             <h3>{product.name}</h3>
