@@ -1,5 +1,6 @@
 import { AdminNav } from "@/components/AdminNav";
 import { listOrders, orderStatusCounts } from "@/lib/orders";
+import { reconcilePendingOrders } from "@/lib/reconcile";
 import { requireAdmin } from "@/lib/adminAuth";
 import { orderStatusAction } from "../actions";
 
@@ -20,6 +21,9 @@ const STATUS_LABELS: Record<string, string> = {
 
 export default async function AdminPedidosPage() {
   await requireAdmin();
+  // Confirma contra la API de Wompi los pagos pendientes antes de listar
+  // (el webhook del comercio compartido apunta a perlasexplosivas).
+  await reconcilePendingOrders();
   const [orders, counts] = await Promise.all([listOrders(), orderStatusCounts()]);
 
   return (

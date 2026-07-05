@@ -102,6 +102,7 @@ export async function POST(request: Request) {
 
   const reference = newOrderReference();
   const wantsWompi = payWith === "wompi" && isWompiConfigured();
+  const paymentReference = wantsWompi ? uniquePaymentReference(reference) : null;
 
   await createOrder({
     reference,
@@ -118,12 +119,13 @@ export async function POST(request: Request) {
     shippingNote,
     totalCop: subtotal,
     status: wantsWompi ? "pending_payment" : "whatsapp",
-    paymentMethod: wantsWompi ? "wompi" : "whatsapp"
+    paymentMethod: wantsWompi ? "wompi" : "whatsapp",
+    wompiPaymentReference: paymentReference
   });
 
-  if (wantsWompi) {
+  if (wantsWompi && paymentReference) {
     const checkoutUrl = buildCheckoutUrl({
-      paymentReference: uniquePaymentReference(reference),
+      paymentReference,
       amountCop: subtotal,
       customerEmail: email,
       customerFullName: name,

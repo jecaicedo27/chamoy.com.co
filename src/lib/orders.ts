@@ -26,6 +26,7 @@ export type Order = {
   total_cop: number;
   status: string;
   payment_method: string | null;
+  wompi_payment_reference: string | null;
   wompi_transaction_id: string | null;
   wompi_status_message: string | null;
   created_at: Date;
@@ -52,14 +53,15 @@ export async function createOrder(input: {
   totalCop: number;
   status: string;
   paymentMethod: string;
+  wompiPaymentReference?: string | null;
 }): Promise<Order> {
   const rows = await query<Order>(
     `INSERT INTO orders (
        reference, customer_name, customer_phone, customer_email, customer_legal_id,
        city, address, notes, items, subtotal_cop, shipping_cop, shipping_note,
-       total_cop, status, payment_method
+       total_cop, status, payment_method, wompi_payment_reference
      )
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10, $11, $12, $13, $14, $15)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::jsonb, $10, $11, $12, $13, $14, $15, $16)
      RETURNING *`,
     [
       input.reference,
@@ -76,7 +78,8 @@ export async function createOrder(input: {
       input.shippingNote,
       input.totalCop,
       input.status,
-      input.paymentMethod
+      input.paymentMethod,
+      input.wompiPaymentReference ?? null
     ]
   );
 
@@ -132,6 +135,19 @@ export async function updateOrderStatus(id: string, status: string): Promise<voi
 
 export async function listOrders(): Promise<Order[]> {
   return query<Order>(`SELECT * FROM orders ORDER BY created_at DESC LIMIT 300`);
+}
+
+/** Órdenes Wompi sin confirmación de pago (últimos 7 días) para reconciliar por API. */
+export async function listPendingWompiOrders(): Promise<Order[]> {
+  return query<Order>(
+    `SELECT * FROM orders
+     WHERE payment_method = 'wompi'
+       AND status IN ('created', 'pending_payment')
+       AND wompi_payment_reference IS NOT NULL
+       AND created_at > now() - interval '7 days'
+     ORDER BY created_at DESC
+     LIMIT 50`
+  );
 }
 
 export async function orderStatusCounts() {

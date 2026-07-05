@@ -149,6 +149,30 @@ export type WompiTransaction = {
   status_message: string | null;
 };
 
+/**
+ * Busca transacciones por referencia de pago exacta. Devuelve la aprobada si
+ * existe; si no, la más reciente. Es la vía de reconciliación cuando el
+ * webhook del comercio apunta a otro dominio (llaves compartidas con perlas).
+ */
+export async function fetchTransactionByReference(
+  paymentReference: string
+): Promise<WompiTransaction | null> {
+  const cfg = getWompiConfig();
+  if (!cfg) return null;
+
+  const res = await fetch(
+    `${cfg.apiBase}/transactions?reference=${encodeURIComponent(paymentReference)}`,
+    { headers: { Authorization: `Bearer ${cfg.privateKey}` }, cache: "no-store" }
+  );
+  if (!res.ok) return null;
+
+  const json = (await res.json()) as { data?: WompiTransaction[] };
+  const transactions = json.data ?? [];
+  if (!transactions.length) return null;
+
+  return transactions.find((t) => t.status === "APPROVED") ?? transactions[0];
+}
+
 export async function fetchTransaction(transactionId: string): Promise<WompiTransaction | null> {
   const cfg = getWompiConfig();
   if (!cfg) return null;

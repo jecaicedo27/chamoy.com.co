@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getOrderByReference, setOrderPaidIfPending, setOrderPaymentResult } from "@/lib/orders";
+import { reconcileOrder } from "@/lib/reconcile";
 import { fetchTransaction } from "@/lib/wompi";
 import { whatsappUrl } from "@/lib/whatsapp";
 
@@ -83,7 +84,12 @@ export default async function OrderStatusPage({
   // de verdad definitiva.
   const pendingStates = ["created", "pending_payment"];
   const txToCheck = transactionId || order.wompi_transaction_id;
-  if (pendingStates.includes(order.status) && txToCheck) {
+  if (pendingStates.includes(order.status) && !txToCheck && order.wompi_payment_reference) {
+    // Sin id de transacción (el cliente no volvió por el redirect): reconciliar
+    // por referencia de pago vía API.
+    await reconcileOrder(order);
+    order = (await getOrderByReference(reference)) ?? order;
+  } else if (pendingStates.includes(order.status) && txToCheck) {
     const transaction = await fetchTransaction(txToCheck);
     if (transaction) {
       if (transaction.status === "APPROVED") {
