@@ -6,10 +6,12 @@ ALTER TABLE products
   ADD COLUMN IF NOT EXISTS comparison text,
   ADD COLUMN IF NOT EXISTS related_recipes text[] NOT NULL DEFAULT '{}';
 
+-- Backfill SOLO para los dos productos originales: otros productos pueden
+-- tener presentations vacío a propósito (sin precios publicados aún).
 UPDATE products
 SET presentations = '[{"size":"500 ml","price_cop":35000},{"size":"1 litro","price_cop":55000}]'::jsonb
-WHERE presentations IS NULL
-   OR presentations = '[]'::jsonb;
+WHERE slug IN ('sirope-de-chamoy', 'salsa-de-chamoy')
+  AND (presentations IS NULL OR presentations = '[]'::jsonb);
 
 ALTER TABLE products
   DROP COLUMN IF EXISTS price_cop;
