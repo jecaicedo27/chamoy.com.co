@@ -7,5 +7,5 @@ export const site = {
   whatsappNumber,
   whatsappPretty: "+57 304 146 2122",
   description:
-    "Sirope y salsa de chamoy en Colombia para micheladas, frutas, sodas, granizados y negocios."
+    "Fabricantes de sirope y salsa de chamoy en Colombia. Directo de fábrica para micheladas, frutas, sodas, granizados y negocios."
 };

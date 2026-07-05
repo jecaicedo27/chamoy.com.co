@@ -20,7 +20,7 @@ VALUES
     },
     {
       "heading": "Precios y presentaciones en Bogotá",
-      "body": "Manejamos los mismos precios en todo el país: $35.000 por 500 ml y $55.000 por 1 litro, tanto en sirope como en salsa. Para pedidos de negocio pregunta por precios al por mayor: te respondemos por WhatsApp con la cotización según volumen."
+      "body": "Somos fabricantes, así que el precio es directo de fábrica y es el mismo en todo el país: $35.000 por 500 ml y $55.000 por 1 litro, tanto en sirope como en salsa. Para pedidos de negocio pregunta por precios al por mayor: te respondemos por WhatsApp con la cotización según volumen."
     }
   ]'::jsonb,
   '[
@@ -128,7 +128,7 @@ VALUES
   ]'::jsonb,
   '[
     {"question": "¿Cuánto rinde un litro de sirope de chamoy?", "answer": "Entre 50 y 70 vasos escarchados, según el tamaño del vaso y la dosis. Eso deja el costo del chamoy entre $800 y $1.100 por michelada."},
-    {"question": "¿Manejan precios al por mayor para bares?", "answer": "Sí. Escríbenos por WhatsApp con tu consumo estimado semanal y te cotizamos precio de negocio."},
+    {"question": "¿Manejan precios al por mayor para bares?", "answer": "Sí. Somos fabricantes, así que el precio de negocio sale directo de fábrica, sin intermediarios. Escríbenos por WhatsApp con tu consumo estimado semanal y te cotizamos."},
     {"question": "¿El chamoy necesita refrigeración en la barra?", "answer": "Te enviamos las indicaciones de manejo y conservación con tu pedido, según el producto y el ritmo de uso de tu barra."}
   ]'::jsonb,
   'Cotizar para mi bar',
@@ -166,7 +166,7 @@ VALUES
   '[
     {"question": "¿Cuánto rinde un litro de salsa de chamoy en fruta?", "answer": "Entre 40 y 60 porciones según la generosidad del topping. El costo queda entre $900 y $1.400 por porción."},
     {"question": "¿Qué frutas combinan mejor con chamoy?", "answer": "Mango biche es el rey, pero también funciona con sandía, piña, pepino, fresas, grosellas y mezclas de fruta verde con limón."},
-    {"question": "¿Tienen precios para compra recurrente?", "answer": "Sí. Si tu frutería consume varios litros al mes, escríbenos por WhatsApp y te armamos precio de negocio."}
+    {"question": "¿Tienen precios para compra recurrente?", "answer": "Sí. Fabricamos el producto nosotros mismos, así que podemos garantizar reposición constante y precio de fábrica para compra recurrente. Escríbenos por WhatsApp y te armamos precio de negocio."}
   ]'::jsonb,
   'Cotizar para mi frutería',
   'Hola, tengo una frutería y quiero cotizar salsa de chamoy.',
@@ -203,7 +203,7 @@ VALUES
   '[
     {"question": "¿Qué necesito para hacer mangonadas?", "answer": "Mango (fresco o pulpa), hielo o helado de mango, sirope de chamoy y sal de chile. Con un litro de sirope preparas decenas de mangonadas."},
     {"question": "¿El chamoy se lleva bien con el helado de crema?", "answer": "Sí. El contraste agridulce-picosito funciona especialmente bien con helados dulces y cremosos: vainilla, mango, coco y frutos rojos."},
-    {"question": "¿Venden al por mayor para heladerías?", "answer": "Sí. Cuéntanos por WhatsApp cuántas porciones vendes por semana y te cotizamos precio de negocio."}
+    {"question": "¿Venden al por mayor para heladerías?", "answer": "Sí. Somos fabricantes en Colombia: precio directo de fábrica y producción constante para que tu vitrina nunca se quede sin chamoy. Cuéntanos por WhatsApp cuántas porciones vendes por semana y te cotizamos."}
   ]'::jsonb,
   'Cotizar para mi heladería',
   'Hola, tengo una heladería y quiero cotizar chamoy para mangonadas.',

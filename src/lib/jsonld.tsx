@@ -29,6 +29,7 @@ export function organizationJsonLd() {
     "@id": `${site.url}/#organization`,
     name: site.name,
     url: site.url,
+    description: "Fabricantes de salsa y sirope de chamoy en Colombia, con venta directa y envío a todo el país.",
     logo: {
       "@type": "ImageObject",
       url: `${site.url}/assets/img/logo-chamoy.png`,
@@ -144,6 +145,8 @@ export function productJsonLd(product: Product) {
     name: product.name,
     description: stripHtml(product.description),
     brand: { "@type": "Brand", name: site.name },
+    manufacturer: { "@id": `${site.url}/#organization` },
+    countryOfOrigin: "CO",
     category: "Salsas y siropes para bebidas",
     image: absoluteUrl(product.image),
     url: `${site.url}/productos/${product.slug}/`,

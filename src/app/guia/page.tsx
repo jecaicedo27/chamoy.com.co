@@ -35,7 +35,7 @@ export default function GuiaPage() {
 
       <section className="section">
         <div className="wrap">
-          <div className="grid two">
+          <div className="grid three">
             <Link className="card recipe-card" href="/guia/que-es-el-chamoy/">
               <img className="card-image recipe-image" src="/assets/img/chamoy-colombia-hero.webp" alt="Botella y tarro de chamoy con mangos, limones y chiles secos" />
               <h3>¿Qué es el chamoy y a qué sabe?</h3>
@@ -50,6 +50,14 @@ export default function GuiaPage() {
               <p>
                 Opciones, precios reales y cómo pedir chamoy con envío a Bogotá, Medellín, Cali y
                 todo el país.
+              </p>
+            </Link>
+            <Link className="card recipe-card" href="/guia/chamoy-colombiano-vs-importado/">
+              <img className="card-image recipe-image" src="/assets/img/sirope-de-chamoy.webp" alt="Sirope de chamoy fabricado en Colombia" />
+              <h3>¿Colombiano o importado?</h3>
+              <p>
+                Las marcas mexicanas ya llegan a Colombia. Comparación honesta: precio, reposición,
+                asesoría y cuándo conviene cada uno.
               </p>
             </Link>
           </div>

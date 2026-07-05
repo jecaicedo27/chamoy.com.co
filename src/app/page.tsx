@@ -31,8 +31,8 @@ export default async function HomePage() {
           <span className="eyebrow">Chamoy en Colombia</span>
           <h1 id="hero-title">Chamoy: sirope y salsa para bebidas, frutas y negocios.</h1>
           <p className="hero-lead">
-            Qué es, cómo se usa y dónde comprar chamoy en Colombia. Te ayudamos a escoger
-            sirope o salsa para micheladas, mango biche, sodas, granizados y antojos.
+            Somos fabricantes: producimos sirope y salsa de chamoy en Colombia y te ayudamos a
+            escoger el formato para micheladas, mango biche, sodas, granizados y antojos.
           </p>
           <div className="hero-actions">
             <Link className="btn btn-primary" href="/comprar/">
@@ -56,9 +56,44 @@ export default async function HomePage() {
         </article>
         <article className="quick-card">
           <strong>Dónde comprar</strong>
-          <p>Sirope y salsa de chamoy con asesoria por WhatsApp en Colombia.</p>
+          <p>Directo de fábrica, con asesoria por WhatsApp y envío a todo Colombia.</p>
         </article>
       </div>
+
+      <section className="section" id="fabricantes">
+        <div className="wrap">
+          <div className="section-head">
+            <div>
+              <p className="section-kicker">Producción propia</p>
+              <h2>Somos fabricantes, no revendedores.</h2>
+            </div>
+            <p>
+              Producimos nuestro sirope y salsa de chamoy en Colombia. Eso significa precio
+              directo de fábrica, receta consistente en cada lote y capacidad para atender
+              negocios que compran todos los meses.
+            </p>
+          </div>
+          <div className="grid three">
+            <article className="card card-pad">
+              <h3>Precio directo</h3>
+              <p>Sin intermediarios ni importadores: el precio que ves viene de la fábrica, y mejora al por mayor.</p>
+            </article>
+            <article className="card card-pad">
+              <h3>Sabor consistente</h3>
+              <p>Receta estandarizada lote a lote, para que tu michelada o tu mango sepan igual hoy y en seis meses.</p>
+            </article>
+            <article className="card card-pad">
+              <h3>Volumen para negocios</h3>
+              <p>Capacidad de producción para bares, fruterías, heladerías y distribuidores, con reposición recurrente.</p>
+            </article>
+          </div>
+          <div className="section-actions" style={{ marginTop: 24 }}>
+            <Link className="btn btn-secondary" href="/guia/chamoy-colombiano-vs-importado/">
+              ¿Colombiano o importado? Compara antes de comprar
+            </Link>
+          </div>
+        </div>
+      </section>
 
       <section className="section alt" id="que-es-chamoy">
         <div className="wrap">

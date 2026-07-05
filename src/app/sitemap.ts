@@ -33,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     route("/guia/", contentUpdatedAt, 0.75),
     route("/guia/que-es-el-chamoy/", contentUpdatedAt, 0.85),
     route("/guia/donde-comprar-chamoy-en-colombia/", contentUpdatedAt, 0.85),
+    route("/guia/chamoy-colombiano-vs-importado/", contentUpdatedAt, 0.8),
     route("/glosario/", contentUpdatedAt, 0.7),
     route("/colombia/", contentUpdatedAt, 0.7),
     route("/negocios/", contentUpdatedAt, 0.7),
